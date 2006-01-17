@@ -2,8 +2,8 @@
 #include "itkImageFileWriter.h"
 #include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
-
-#include "itkImageFilter.h"
+#include "itkBinaryBallStructuringElement.h"
+#include "itkWhiteTopHatImageFilter.h"
 
 
 int main(int, char * argv[])
@@ -12,14 +12,20 @@ int main(int, char * argv[])
   
   typedef unsigned char PType;
   typedef itk::Image< PType, dim > IType;
+  typedef itk::BinaryBallStructuringElement< PType, dim > SRType;
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::ImageFilter< IType, IType > FilterType;
+  typedef itk::WhiteTopHatImageFilter< IType, IType, SRType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
+
+  SRType kernel;
+  kernel.SetRadius( 5 );
+  kernel.CreateStructuringElement();
+  filter->SetKernel( kernel );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
