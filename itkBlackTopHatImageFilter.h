@@ -78,6 +78,12 @@ public:
   /** Get the kernel (structuring element). */
   itkGetConstReferenceMacro(Kernel, KernelType);
 
+  /** A safe border is added to input image to avoid borders effects
+   * and remove it once the closing is done */
+  itkSetMacro(SafeBorder, bool);
+  itkGetConstReferenceMacro(SafeBorder, bool);
+  itkBooleanMacro(SafeBorder);
+
 protected:
   BlackTopHatImageFilter();
   ~BlackTopHatImageFilter() {};
@@ -97,6 +103,9 @@ private:
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel ;
+
+  bool m_SafeBorder;
+
 } ; // end of class
 
 } // end namespace itk

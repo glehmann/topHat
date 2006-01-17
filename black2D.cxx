@@ -16,11 +16,12 @@ int main(int, char * argv[])
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName( argv[2] );
 
   typedef itk::BlackTopHatImageFilter< IType, IType, SRType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
+  filter->SetSafeBorder( atoi(argv[1]) );
 
   SRType kernel;
   kernel.SetRadius( 5 );
@@ -32,7 +33,7 @@ int main(int, char * argv[])
   typedef itk::ImageFileWriter< IType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetFileName( argv[3] );
   writer->Update();
 
   return 0;

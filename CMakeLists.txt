@@ -1,9 +1,6 @@
 #Change PROJECT_NAME to the name of your project
 PROJECT(topHat)
 
-# set the name of the input image used to run the test
-SET(INPUT_IMAGE ${CMAKE_SOURCE_DIR}/images/cthead1.png)
-
 #include some macros from another file...
 INCLUDE(IJMacros.txt)
 
@@ -56,5 +53,16 @@ TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 #any tests you can comment out or delete the following line.
 # ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
-ADD_TEST(Run check ${INPUT_IMAGE} out.png)
-ADD_TEST(CompareImage ${IMAGE_COMPARE} out.png ${CMAKE_SOURCE_DIR}/images/test.png)
+ADD_TEST(WhiteSafe white2D 1 ${CMAKE_SOURCE_DIR}/images/cthead1.png cthead1-white-safe.png)
+ADD_TEST(WhiteSafeCompare ${IMAGE_COMPARE} cthead1-white-safe.png ${CMAKE_SOURCE_DIR}/images/cthead1-safe.png)
+
+ADD_TEST(BlackSafe black2D 1 ${CMAKE_SOURCE_DIR}/images/cthead1-inverted.png cthead1-black-safe.png)
+ADD_TEST(BlackSafeCompare ${IMAGE_COMPARE} cthead1-black-safe.png ${CMAKE_SOURCE_DIR}/images/cthead1-safe.png)
+
+# 
+# ADD_TEST(WhiteUnunsafe white2D 0 ${CMAKE_SOURCE_DIR}/images/cthead1.png cthead1-white-unsafe.png)
+# ADD_TEST(WhiteUnunsafeCompare ${IMAGE_COMPARE} cthead1-white-unsafe.png ${CMAKE_SOURCE_DIR}/images/cthead1-unsafe.png)
+# 
+# ADD_TEST(BlackUnunsafe black2D 0 ${CMAKE_SOURCE_DIR}/images/cthead1-inverted.png cthead1-black-unsafe.png)
+# ADD_TEST(BlackUnunsafeCompare ${IMAGE_COMPARE} cthead1-black-unsafe.png ${CMAKE_SOURCE_DIR}/images/cthead1-unsafe.png)
+# 
